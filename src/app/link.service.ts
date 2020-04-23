@@ -18,7 +18,7 @@ export interface LinkIndex {
 export class LinkService {
   private Link$ = new Subject<LinkIndex>();
 	
-	getLinks(): Observable<Link[]> {
+	links(): Observable<Link[]> {
     return this.Link$.asObservable().pipe(
       startWith([
         { link: 'https://www.youtube.com/watch?v=guo8CHurCpY' },
