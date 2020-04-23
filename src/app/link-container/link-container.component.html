@@ -1,9 +1,21 @@
 
-<div *ngFor="let link of links; let i = index">
-	<input #inputs (keyup)="handleKeyDown($event.keyCode, i)" [value]="link" type="text">
-	<button>Paste</button>
-	<button (click)="remove(i)">X</button>
+<div *ngFor="let link of links | async; let i = index">
+	{{ link.link }}
+	<button (click)="addLink(i)">Add</button>
+	<button (click)="removeLink(i)">X</button>
 </div>
-
-<button (click)="snip()">Pop</button>
+<button (click)="addLink()">+</button>
 <button (click)="logQueryList()">Log Q</button>
+
+
+
+<!-- <div *ngFor="let link of links; let i = index">
+	<link-entry (keyup)="handleKeyDown($event.keyCode, i)" (inputValueChange)="$event" #inputs></link-entry>
+	<button (click)="removeLink(i)">X</button>
+</div> -->
+
+
+
+
+
+

@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LinkContainerComponent } from './link-container/link-container.component';
+import { LinkEntryComponent } from './link-entry/link-entry.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LinkContainerComponent
+    LinkContainerComponent,
+    LinkEntryComponent
   ],
   imports: [
     BrowserModule,
