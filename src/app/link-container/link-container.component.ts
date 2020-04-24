@@ -7,7 +7,7 @@ import {
   AfterViewInit,
   QueryList,
 } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Subscription, Observable } from 'rxjs';
 
 @Component({
@@ -19,54 +19,61 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
   @ViewChildren('inputs', { read: LinkEntryComponent }) inputs: QueryList<
     LinkEntryComponent
   >;
+  // ANCHOR Not Used
   currentIndex: number;
-  linkInputElements: any;
+  // ANCHOR Not Used
   linkInputsSubscription: Subscription;
-  links: Observable<Link[]>;
+
+  linkInputElements: HTMLInputElement[];
+  links$: Observable<Link[]>;
 
   addLink(index?: number) {
     // Inserts at last position if no index is provided
-    // let insert = index === undefined ? this.links.length - 1 : index + 1;
-    // this.links.splice(insert, 0, '');
-    this.linkService.addLink({ link: 'keke' }, index);
+    this.linkService.addLink({ link: '' }, index);
   }
 
   removeLink(index: number) {
-    // Removes element from this.links at index
-    // this.links.splice(index, 1);
+    // Removes at index
     this.linkService.removeLink(index);
   }
 
-  /*   handleKeyDown(code: number, index: number) {
+  getAllLinks() {
+    this.linkService.getAllLinks(this.linkInputElements);
+  }
+
+    handleKeyDown(code: number, index: number) {
     switch (code) {
       // Enter
       case 13:
-				this.links.splice(index + 1, 0, '');
-				this.inputs.toArray()[index].focusInput()
-        break;
-      // DownArrow
-      case 38:
-        // if (index !== 0)
+				this.addLink(index)
+				// ANCHOR try wrapping with promise
+				console.log(this.linkInputElements)
         break;
       // UpArrow
+      case 38:
+        if (index !== 0) this.linkInputElements[index - 1].focus()
+        break;
+      // DownArrow
       case 40:
-        // if (index !== this.inputs.length - 1)
+				if (index !== this.inputs.length - 1) this.linkInputElements[index + 1].focus()
         break;
     }
-  } */
+  }
 
   logQueryList() {
     console.log(this.inputs);
-    console.log(this.links);
+    console.log(this.links$);
   }
 
   constructor(private linkService: LinkService) {}
   ngOnInit(): void {
-    this.links = this.linkService.getLinks();
+    this.links$ = this.linkService.links();
   }
+
   ngAfterViewInit(): void {
     this.inputs.changes
       .pipe(
+				startWith(this.inputs),
         // Extracts only the input-elements from the QueryList
         map((e) => e.toArray().map((r) => r.input.nativeElement))
       )
@@ -76,31 +83,3 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
     // this.inputs.first.focusInput()
   }
 }
-
-/*   handleKeyDown(code: number, index: number) {
-    switch (code) {
-      // Enter
-      case 13:
-        this.currentIndex = index;
-        if (this.inputs._results[index].nativeElement.value !== '') {
-          this.links.splice(index + 1, 0, '');
-          this.inputs[index + 1].focus();
-        }
-        break;
-      // DownArrow
-      case 38:
-        if (index !== 0) {
-          let e: any = this.inputs._results[index - 1].nativeElement;
-          e.focus();
-        }
-        break;
-      // UpArrow
-      case 40:
-        if (index !== this.inputs.length - 1) {
-          let e: any = this.inputs._results[index + 1].nativeElement;
-          e.focus();
-        }
-        break;
-    }
-	}
- */

@@ -1,11 +1,12 @@
 
-<div *ngFor="let link of links | async; let i = index">
-	{{ link.link }}
+<div *ngFor="let link of links$ | async; let i = index">
+	<link-entry (inputKeyup)="handleKeyDown($event.keyCode, i)" #inputs></link-entry>
 	<button (click)="addLink(i)">Add</button>
 	<button (click)="removeLink(i)">X</button>
 </div>
 <button (click)="addLink()">+</button>
 <button (click)="logQueryList()">Log Q</button>
+<button (click)="getAllLinks()">Download All</button>
 
 
 

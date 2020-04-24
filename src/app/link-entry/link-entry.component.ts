@@ -19,12 +19,12 @@ import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
   styleUrls: ['./link-entry.component.scss'],
 })
 export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Output() inputValueChange = new EventEmitter();
+  @Output() inputKeyup = new EventEmitter();
   @ViewChild('input') input: ElementRef;
   inputValue: string;
   inputChange$: Observable<any>;
   inputSubscription: Subscription;
-  imgSrc: string;
+	imgSrc: string;
 
   getThumbnail(videoLink: string): string {
     if (!videoLink.includes('v=')) {
@@ -41,9 +41,8 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
-
+		// Automatically focuses input on component-creation
+		this.input.nativeElement.focus()
     // Creates observable on input-element from keyup-event
     this.inputChange$ = fromEvent(this.input.nativeElement, 'keyup');
     // Subscribes to observable and watches value of input-element
@@ -56,8 +55,6 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((val) => {
         this.inputValue = val;
         this.imgSrc = this.getThumbnail(val);
-        this.inputValueChange.emit(val);
-        // console.log(this.getThumbnail(val))
       });
   }
 

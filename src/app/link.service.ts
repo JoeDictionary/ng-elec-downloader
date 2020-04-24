@@ -20,10 +20,7 @@ export class LinkService {
 	
 	links(): Observable<Link[]> {
     return this.Link$.asObservable().pipe(
-      startWith([
-        { link: 'https://www.youtube.com/watch?v=guo8CHurCpY' },
-        { link: 'https://www.youtube.com/watch?v=guo8CHurCpY' },
-      ]),
+      startWith([]),
       scan((acc: Link[], current: LinkIndex) => {
         if (current.remove) {
 					// Removes link
@@ -35,7 +32,13 @@ export class LinkService {
         return acc;
       })
     );
-  }
+	}
+	
+	getAllLinks(inputElements: HTMLInputElement[]) {
+		let allLinks = inputElements.map((e) => e.value)
+		console.log(allLinks)
+		return allLinks
+	}
 
   constructor() {}
 
