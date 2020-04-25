@@ -1,24 +1,31 @@
+import { LinkService } from './link.service';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ElectronService {
   private ipc: IpcRenderer;
 
-  constructor() {
-/*     if((<any>window).require) {
+  constructor(private _linkService: LinkService) {
+    console.log('link.service: constructor start');
+    if ((<any>window).require) {
       try {
-        this.ipc = (<any>window).require('electron').ipcRenderer
+        this.ipc = (<any>window).require('electron').ipcRenderer;
       } catch (error) {
-        throw error
+        throw error;
       }
-    } else console.warn("could not load electron ipc") */
+    } else {
+      console.log('Could not load electron ipc');
+    }
   }
 
-/*   sendLinks(links: string[]) {
-    this.ipc.send("sendLinks", links)
-  } */
+  sendLinks(inputElements: HTMLInputElement[], args?: string[]) {
+    let allLinks = this._linkService.getAllLinks(inputElements);
+    allLinks = args ? [...allLinks, ...args] : allLinks;
+    console.log('link.service.sendAllLinks: about to send links...');
+    console.log('link.service.sendAllLinks:', allLinks);
+    this.ipc.send('sendLinks', allLinks);
+  }
 }

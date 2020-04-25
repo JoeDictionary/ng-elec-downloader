@@ -22,7 +22,7 @@ export class LinkService {
 	private ipc: IpcRenderer;
   
   constructor() {
-		console.log("link.service: constructor start")
+/* 		console.log("link.service: constructor start")
 		if ((<any>window).require) {
       try {
         this.ipc = (<any>window).require('electron').ipcRenderer
@@ -31,7 +31,7 @@ export class LinkService {
       }
     } else {
       console.log('Could not load electron ipc')
-    }
+    } */
 	}
 
 	links(): Observable<Link[]> {
@@ -50,7 +50,7 @@ export class LinkService {
     );
 	}
 	
-	getAllLinks(inputElements: HTMLInputElement[]) {
+	getAllLinks(inputElements: HTMLInputElement[]): string[] {
 		let allLinks = inputElements.map((e) => e.value)
 		// console.log(allLinks)
 		return allLinks
@@ -63,12 +63,5 @@ export class LinkService {
   
   removeLink(index: number) {
     this.Link$.next({ index: index, remove: true });
-  }
-
-  sendAllLinks(inputElements: HTMLInputElement[]) {
-		let allLinks = this.getAllLinks(inputElements)
-		console.log("link.service.sendAllLinks: about to send links...")
-		console.log("link.service.sendAllLinks:", allLinks)
-		this.ipc.send("sendLinks", allLinks)
   }
 }

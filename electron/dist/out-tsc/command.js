@@ -1,16 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var exec = require('child_process').exec;
-function testLog() {
-    console.log("Test-Log from command.ts!");
-}
-exports.testLog = testLog;
+var child_process_1 = require("child_process");
 function download(args) {
-    var command = 'test -f';
+    console.log("command.ts: Downloads Starting!");
+    var command = 'electron\\test.exe';
     args.forEach(function (element) {
         command += ' ' + element;
     });
-    exec(command, function (error, stdout, stderr) {
+    console.log("command.ts: ", command);
+    child_process_1.exec(command, function (error, stdout, stderr) {
         if (error) {
             console.log("error: " + error.message);
             return;
@@ -22,4 +20,5 @@ function download(args) {
         console.log("stdout: " + stdout);
     });
 }
+exports.download = download;
 //# sourceMappingURL=command.js.map

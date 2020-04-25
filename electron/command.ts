@@ -1,11 +1,13 @@
-const { exec } = require('child_process');
+import { exec } from 'child_process';
 
 
 export function download(args: string[]) {
-  let command = 'test -f';
+	console.log("command.ts: Downloads Starting!")
+  let command = 'electron\\test.exe';
   args.forEach((element) => {
     command += ' ' + element;
 	});
+	console.log("command.ts: ", command)
 	
   exec(command, (error, stdout, stderr) => {
     if (error) {

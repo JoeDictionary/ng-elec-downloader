@@ -4,7 +4,7 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 var command_1 = require("./command");
-command_1.testLog();
+console.log("__dirname: ", __dirname);
 function createWindow() {
     win = new electron_1.BrowserWindow({
         webPreferences: {
@@ -19,7 +19,7 @@ function createWindow() {
         protocol: 'file:',
         slashes: true,
     }));
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.on('closed', function () {
         win = null;
     });
@@ -33,5 +33,8 @@ electron_1.app.on('activate', function () {
 });
 electron_1.ipcMain.on('sendLinks', function (event, arg) {
     console.log("Links arrived: " + event + ", " + arg);
+    command_1.download(arg);
+    // ANCHOR wait for stdout
+    console.log("Downloads Done!");
 });
 //# sourceMappingURL=main.js.map

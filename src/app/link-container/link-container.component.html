@@ -6,17 +6,11 @@
 </div>
 <button (click)="addLink()">+</button>
 <button (click)="logQueryList()">Log Q</button>
-<button (click)="downloadLinks()">Download All</button>
-
+<button (click)="downloadLinks()">Download MP4</button>
+<button (click)="downloadLinks(['-a'])">Download MP3</button>
 
 
 <!-- <div *ngFor="let link of links; let i = index">
 	<link-entry (keyup)="handleKeyDown($event.keyCode, i)" (inputValueChange)="$event" #inputs></link-entry>
 	<button (click)="removeLink(i)">X</button>
 </div> -->
-
-
-
-
-
-

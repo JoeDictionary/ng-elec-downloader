@@ -9,7 +9,7 @@ import {
   QueryList,
 } from '@angular/core';
 import { map, startWith } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'link-container',
@@ -20,22 +20,22 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
   @ViewChildren('inputs', { read: LinkEntryComponent }) inputs: QueryList<
     LinkEntryComponent
   >;
-  // ANCHOR Not Used
-  currentIndex: number;
-  // ANCHOR Not Used
-  linkInputsSubscription: Subscription;
-
   linkInputElements: HTMLInputElement[];
-  links$: Observable<Link[]>;
+	links$: Observable<Link[]>;
+	
+	constructor(private _linkService: LinkService, private _electronService: ElectronService) {}
+  ngOnInit(): void {
+    this.links$ = this._linkService.links();
+  }
 
   addLink(index?: number) {
     // Inserts at last position if no index is provided
-    this.linkService.addLink({ link: '' }, index);
+    this._linkService.addLink({ link: '' }, index);
   }
 
   removeLink(index: number) {
     // Removes at index
-    this.linkService.removeLink(index);
+    this._linkService.removeLink(index);
   }
 
   handleKeyDown(code: number, index: number) {
@@ -58,18 +58,13 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  downloadLinks() {
-    this.linkService.sendAllLinks(this.linkInputElements);
+  downloadLinks(args?: string[]) {
+    this._electronService.sendLinks(this.linkInputElements, args);
   }
 
   logQueryList() {
     console.log(this.inputs);
     console.log(this.links$);
-  }
-
-  constructor(private linkService: LinkService) {}
-  ngOnInit(): void {
-    this.links$ = this.linkService.links();
   }
 
   ngAfterViewInit(): void {

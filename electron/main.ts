@@ -3,6 +3,8 @@ import * as path from 'path';
 import * as url from 'url';
 import { download } from './command';
 
+console.log("__dirname: ", __dirname)
+
 
 function createWindow() {
   win = new BrowserWindow({
@@ -25,8 +27,7 @@ function createWindow() {
     })
   );
 
-  win.webContents.openDevTools();
-
+  // win.webContents.openDevTools();
   win.on('closed', () => {
     win = null;
   });
@@ -41,5 +42,8 @@ app.on('activate', () => {
 });
 
 ipcMain.on('sendLinks', (event, arg) => {
-  console.log(`Links arrived: ${event}, ${arg}`);
+	console.log(`Links arrived: ${event}, ${arg}`);
+	download(arg)
+	// ANCHOR wait for stdout
+	console.log("Downloads Done!")
 });
