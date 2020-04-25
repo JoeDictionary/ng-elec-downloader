@@ -41,7 +41,7 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
     this.linkService.getAllLinks(this.linkInputElements);
   }
 
-    handleKeyDown(code: number, index: number) {
+  handleKeyDown(code: number, index: number) {
     switch (code) {
       // Enter
       case 13:
