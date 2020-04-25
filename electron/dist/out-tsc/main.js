@@ -3,13 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
+var command_1 = require("./command");
+command_1.testLog();
 function createWindow() {
     win = new electron_1.BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true,
+        },
         width: 1200,
         height: 1200,
     });
     win.loadURL(url.format({
-        pathname: path.join(__dirname, "../../../dist/ng-elec-downloader/index.html"),
+        pathname: path.join(__dirname, '../../../dist/ng-elec-downloader/index.html'),
         // pathname: "C:/Users/filip/Desktop/PROGRAMMING/ng-elec-downloader/dist/ng-elec-downloader/index.html",
         protocol: 'file:',
         slashes: true,
@@ -25,5 +30,8 @@ electron_1.app.on('activate', function () {
     if (win === null) {
         createWindow();
     }
+});
+electron_1.ipcMain.on('sendLinks', function (event, arg) {
+    console.log("Links arrived: " + event + ", " + arg);
 });
 //# sourceMappingURL=main.js.map

@@ -1,3 +1,4 @@
+import { ElectronService } from './../electron.service';
 import { LinkService, Link } from './../link.service';
 import { LinkEntryComponent } from './../link-entry/link-entry.component';
 import {
@@ -37,27 +38,28 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
     this.linkService.removeLink(index);
   }
 
-  getAllLinks() {
-    this.linkService.getAllLinks(this.linkInputElements);
-  }
-
   handleKeyDown(code: number, index: number) {
     switch (code) {
       // Enter
       case 13:
-				this.addLink(index)
-				// ANCHOR try wrapping with promise
-				console.log(this.linkInputElements)
+        this.addLink(index);
+        // ANCHOR try wrapping with promise
+        console.log(this.linkInputElements);
         break;
       // UpArrow
       case 38:
-        if (index !== 0) this.linkInputElements[index - 1].focus()
+        if (index !== 0) this.linkInputElements[index - 1].focus();
         break;
       // DownArrow
       case 40:
-				if (index !== this.inputs.length - 1) this.linkInputElements[index + 1].focus()
+        if (index !== this.inputs.length - 1)
+          this.linkInputElements[index + 1].focus();
         break;
     }
+  }
+
+  downloadLinks() {
+    this.linkService.sendAllLinks(this.linkInputElements);
   }
 
   logQueryList() {
@@ -73,7 +75,7 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.inputs.changes
       .pipe(
-				startWith(this.inputs),
+        startWith(this.inputs),
         // Extracts only the input-elements from the QueryList
         map((e) => e.toArray().map((r) => r.input.nativeElement))
       )

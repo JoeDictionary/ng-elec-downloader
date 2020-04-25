@@ -1,3 +1,4 @@
+import { ElectronService } from './electron.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
