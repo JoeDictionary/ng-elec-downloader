@@ -1,6 +1,5 @@
 import { exec } from 'child_process';
 
-
 export function download(args: string[]) {
 	console.log("command.ts: Downloads Starting!")
   let command = 'electron\\test.exe';

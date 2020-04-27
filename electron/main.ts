@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { download } from './command';
+import { getInfo } from 'ytdl-core';
 
 console.log("__dirname: ", __dirname)
 
@@ -47,3 +48,11 @@ ipcMain.on('sendLinks', (event, arg) => {
 	// ANCHOR wait for stdout
 	console.log("Downloads Done!")
 });
+
+ipcMain.on('getVideoTitle', (event, arg: string) => {
+	console.log('main.ts: getiVideoTitle invoked', arg)
+	getInfo(arg, (err, info) => {
+		win.webContents.send('videoTitle', info.title)
+		console.log('main.ts:getInfo: ', info.title)
+	})
+})

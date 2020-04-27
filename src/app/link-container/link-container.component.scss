@@ -1,0 +1,75 @@
+$mainC: #f1f3f6;
+$secC: #9dabc0;
+$svgC: rgba(#929cd0, .8);
+
+%center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+
+/* 
+// Neumorphism 3
+$shadow-light: rgba(255,255,255,0.05);
+$shadow-dark: rgba(0,0,0,0.2);
+.raised {
+      box-shadow: -10px -10px 20px 0px $shadow-light, 10px 10px 20px 0px $shadow-dark
+}
+	  
+.sunken {
+	box-shadow: -5px -5px 20px 0px $shadow-light inset, 5px 5px 20px 0px $shadow-dark inset
+}
+*/
+
+
+// Neumorphism 2
+.neu-button {
+	@extend %center; 
+	padding: 1em;
+	outline: none;
+	font-size: 0.9em;
+	width: 10%;
+	height: 10%;
+	border: 0;
+	// border: 1px solid #fff;
+	background: $mainC;
+	border-radius: 20px;
+	box-shadow: 
+	  inset 0 0 15px rgba(55, 84, 170,0),
+	  inset 0 0 20px rgba(255, 255, 255,0),
+	  7px 7px 15px rgba(55, 84, 170,.15),
+	  -7px -7px 20px rgba(255, 255, 255,1),
+	  inset 0px 0px 4px rgba(255, 255, 255,.2);
+
+	// or ':hover'
+	&:active {
+	box-shadow: 
+		inset 7px 7px 15px rgba(55, 84, 170,.15),
+		inset -7px -7px 20px rgba(255, 255, 255,1),
+		0px 0px 4px rgba(255, 255, 255,.2);
+	}
+	// transition: box-shadow 100ms ease-in-out;
+}
+
+
+/* 
+// Neumorphism 1
+button {
+	display: inline-block;
+	border: rgba(255, 255, 255, 0.2);
+	border-radius: 20px;
+	font-size: 1em;
+	width: 3em;
+	height: 2em;
+	box-shadow:
+		// Upper left light shadow
+		-6px -6px 12px rgba(255, 255, 255, 0.863),
+		// Bottom right dark shadow
+		6px 6px 12px rgba(165, 162, 157, 0.314) ;
+}
+*/
+/*
+Neumorphism:
+https://codepen.io/coswise/pen/oNgomEy?editors=1100
+https://freefrontend.com/css-neumorphism-examples/
+*/

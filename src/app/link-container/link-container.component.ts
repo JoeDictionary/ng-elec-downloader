@@ -60,12 +60,7 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
 
   downloadLinks(args?: string[]) {
     this._electronService.sendLinks(this.linkInputElements, args);
-  }
-
-  logQueryList() {
-    console.log(this.inputs);
-    console.log(this.links$);
-  }
+	}
 
   ngAfterViewInit(): void {
     this.inputs.changes

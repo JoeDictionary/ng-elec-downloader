@@ -18,7 +18,11 @@ export class ElectronService {
       }
     } else {
       console.log('Could not load electron ipc');
-    }
+		}
+		
+		this.ipc.on('videoTitle', (event, arg) => {
+			  console.log('electronService: ', arg)
+		})
   }
 
   sendLinks(inputElements: HTMLInputElement[], args?: string[]) {
@@ -27,5 +31,10 @@ export class ElectronService {
     console.log('link.service.sendAllLinks: about to send links...');
     console.log('link.service.sendAllLinks:', allLinks);
     this.ipc.send('sendLinks', allLinks);
-  }
+	}
+	
+	getVideoTitle(videoLink: string) {
+		this.ipc.send('getVideoTitle', videoLink)
+	}
+
 }
