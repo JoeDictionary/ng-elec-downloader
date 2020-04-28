@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { fromEvent, Subscription, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
+import { getInfo } from 'ytdl-core';
+
 
 // ANCHOR Get Video-title
 
@@ -25,6 +27,7 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
   inputChange$: Observable<any>;
   inputSubscription: Subscription;
 	imgSrc: string;
+	title: any;
 
   getThumbnail(videoLink: string): string {
     if (!videoLink.includes('v=')) {
@@ -34,7 +37,7 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
       let withoutPlaylist = videoId.split('&')[0];
       return 'http://img.youtube.com/vi/' + withoutPlaylist + '/0.jpg';
     }
-  }
+	}
 
   focusInput() {
     this.input.nativeElement.focus();
@@ -42,19 +45,18 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
 		// Automatically focuses input on component-creation
-		this.input.nativeElement.focus()
+		this.input.nativeElement.focjus()
     // Creates observable on input-element from keyup-event
-    this.inputChange$ = fromEvent(this.input.nativeElement, 'keyup');
+    this.inputChange$ = fromEvent(this.input.nativeElement, 'keyup').pipe(
+			pluck('currentTarget', 'value'),
+			debounceTime(1000),
+			distinctUntilChanged()
+		);
     // Subscribes to observable and watches value of input-element
-    this.inputSubscription = this.inputChange$
-      .pipe(
-        pluck('currentTarget', 'value'),
-        debounceTime(1000),
-        distinctUntilChanged()
-      )
-      .subscribe((val) => {
+		this.inputSubscription = this.inputChange$
+		.subscribe((val) => {
         this.inputValue = val;
-        this.imgSrc = this.getThumbnail(val);
+				this.imgSrc = this.getThumbnail(val);
       });
   }
 

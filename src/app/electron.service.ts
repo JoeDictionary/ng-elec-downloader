@@ -20,9 +20,9 @@ export class ElectronService {
       console.log('Could not load electron ipc');
 		}
 		
-		this.ipc.on('videoTitle', (event, arg) => {
+/* 		this.ipc.on('videoTitle', (event, arg) => {
 			  console.log('electronService: ', arg)
-		})
+		}) */
   }
 
   sendLinks(inputElements: HTMLInputElement[], args?: string[]) {
