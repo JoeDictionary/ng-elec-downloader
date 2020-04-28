@@ -1,3 +1,4 @@
+import { ElectronService } from './../electron.service';
 import {
   Component,
   OnInit,
@@ -27,7 +28,7 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
   inputChange$: Observable<any>;
   inputSubscription: Subscription;
 	imgSrc: string;
-	title: any;
+	title: string;
 
   getThumbnail(videoLink: string): string {
     if (!videoLink.includes('v=')) {
@@ -39,13 +40,19 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 	}
 
+/* 	getTitle(videoLink: string): Promise<string> {
+		return new Promise<string>((resolve, reject) =>{
+			resolve()
+		})
+	} */
+
   focusInput() {
     this.input.nativeElement.focus();
   }
 
   ngAfterViewInit(): void {
 		// Automatically focuses input on component-creation
-		this.input.nativeElement.focjus()
+		this.input.nativeElement.focus()
     // Creates observable on input-element from keyup-event
     this.inputChange$ = fromEvent(this.input.nativeElement, 'keyup').pipe(
 			pluck('currentTarget', 'value'),
@@ -57,16 +64,22 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
 		.subscribe((val) => {
         this.inputValue = val;
 				this.imgSrc = this.getThumbnail(val);
-      });
-  }
+				/* this.getTitle(val)
+					.then(); */
+			});
+
+			this._electronService.videoTitle$.subscribe((val) => {
+				this.title = val
+			})
+	}
+	
+	  constructor(private _electronService: ElectronService) {}
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    this.inputSubscription.unsubscribe();
+		this.inputSubscription.unsubscribe();
   }
-
-  constructor() {}
 
   ngOnInit(): void {}
 }

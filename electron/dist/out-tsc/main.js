@@ -42,7 +42,7 @@ electron_1.ipcMain.on('getVideoTitle', function (event, arg) {
     console.log('main.ts: getiVideoTitle invoked', arg);
     ytdl_core_1.getInfo(arg, function (err, info) {
         win.webContents.send('videoTitle', info.title);
-        console.log('main.ts:getInfo: ', info.title);
+        // console.log('main.ts:getInfo: ', info.title)
     });
 });
 //# sourceMappingURL=main.js.map

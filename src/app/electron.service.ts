@@ -1,3 +1,4 @@
+import { Observable, Subject } from 'rxjs';
 import { LinkService } from './link.service';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
@@ -6,7 +7,8 @@ import { IpcRenderer } from 'electron';
   providedIn: 'root',
 })
 export class ElectronService {
-  private ipc: IpcRenderer;
+	private ipc: IpcRenderer;
+	videoTitle$: Subject<string>;
 
   constructor(private _linkService: LinkService) {
     console.log('link.service: constructor start');
@@ -18,11 +20,13 @@ export class ElectronService {
       }
     } else {
       console.log('Could not load electron ipc');
-		}
-		
-/* 		this.ipc.on('videoTitle', (event, arg) => {
-			  console.log('electronService: ', arg)
-		}) */
+    }
+
+    this.ipc.on('videoTitle', (event, title) => {
+			console.log('electronService: ', title);
+			this.videoTitle$.next(title);
+      // console.log('electronService: ', event);
+    });
   }
 
   sendLinks(inputElements: HTMLInputElement[], args?: string[]) {
@@ -31,10 +35,9 @@ export class ElectronService {
     console.log('link.service.sendAllLinks: about to send links...');
     console.log('link.service.sendAllLinks:', allLinks);
     this.ipc.send('sendLinks', allLinks);
-	}
-	
-	getVideoTitle(videoLink: string) {
-		this.ipc.send('getVideoTitle', videoLink)
-	}
+  }
 
+  getVideoTitle(videoLink: string) {
+    this.ipc.send('getVideoTitle', videoLink);
+  }
 }

@@ -53,6 +53,6 @@ ipcMain.on('getVideoTitle', (event, arg: string) => {
 	console.log('main.ts: getiVideoTitle invoked', arg)
 	getInfo(arg, (err, info) => {
 		win.webContents.send('videoTitle', info.title)
-		console.log('main.ts:getInfo: ', info.title)
+		// console.log('main.ts:getInfo: ', info.title)
 	})
 })

@@ -62,6 +62,10 @@ export class LinkContainerComponent implements OnInit, AfterViewInit {
     this._electronService.sendLinks(this.linkInputElements, args);
 	}
 
+	videoTitle() {
+		this._electronService.getVideoTitle("https://www.youtube.com/watch?v=PoRJizFvM7s&t=664s")
+	}
+
   ngAfterViewInit(): void {
     this.inputs.changes
       .pipe(
