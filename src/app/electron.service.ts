@@ -8,7 +8,7 @@ import { IpcRenderer } from 'electron';
 })
 export class ElectronService {
 	private ipc: IpcRenderer;
-	videoTitle$: Subject<string>;
+	videoTitleSubject = new Subject<string>();
 
   constructor(private _linkService: LinkService) {
     console.log('link.service: constructor start');
@@ -24,7 +24,7 @@ export class ElectronService {
 
     this.ipc.on('videoTitle', (event, title) => {
 			console.log('electronService: ', title);
-			this.videoTitle$.next(title);
+			this.videoTitleSubject.next(title);
       // console.log('electronService: ', event);
     });
   }

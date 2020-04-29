@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { fromEvent, Subscription, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, pluck } from 'rxjs/operators';
-import { getInfo } from 'ytdl-core';
 
 
 // ANCHOR Get Video-title
@@ -26,7 +25,8 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('input') input: ElementRef;
   inputValue: string;
   inputChange$: Observable<any>;
-  inputSubscription: Subscription;
+	inputSubscription: Subscription;
+	titleSubscription: Subscription;
 	imgSrc: string;
 	title: string;
 
@@ -39,12 +39,6 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
       return 'http://img.youtube.com/vi/' + withoutPlaylist + '/0.jpg';
     }
 	}
-
-/* 	getTitle(videoLink: string): Promise<string> {
-		return new Promise<string>((resolve, reject) =>{
-			resolve()
-		})
-	} */
 
   focusInput() {
     this.input.nativeElement.focus();
@@ -68,17 +62,18 @@ export class LinkEntryComponent implements OnInit, AfterViewInit, OnDestroy {
 					.then(); */
 			});
 
-			this._electronService.videoTitle$.subscribe((val) => {
-				this.title = val
-			})
+		this.titleSubscription = this._electronService.videoTitleSubject.subscribe((val) => {
+			this.title = val
+		})
 	}
 	
-	  constructor(private _electronService: ElectronService) {}
+	constructor(private _electronService: ElectronService) {}
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
 		this.inputSubscription.unsubscribe();
+		this.titleSubscription.unsubscribe();
   }
 
   ngOnInit(): void {}
